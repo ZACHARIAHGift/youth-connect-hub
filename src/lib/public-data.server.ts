@@ -40,12 +40,12 @@ function normalize(row: RawPost): PostSummary {
 }
 
 export async function fetchPosts(params: {
-  search?: string;
-  category?: string;
-  tag?: string;
-  sort?: SortKey;
-  limit?: number;
-  offset?: number;
+  search?: string | undefined;
+  category?: string | undefined;
+  tag?: string | undefined;
+  sort?: SortKey | undefined;
+  limit?: number | undefined;
+  offset?: number | undefined;
 }): Promise<{ posts: PostSummary[]; total: number }> {
   const supabase = publicClient();
   const limit = params.limit ?? 9;

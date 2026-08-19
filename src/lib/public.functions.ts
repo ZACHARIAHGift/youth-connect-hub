@@ -22,12 +22,12 @@ export const getEvents = createServerFn({ method: "GET" }).handler(async () => f
 export const listPosts = createServerFn({ method: "GET" })
   .inputValidator(
     (input: {
-      search?: string;
-      category?: string;
-      tag?: string;
-      sort?: SortKey;
-      page?: number;
-      pageSize?: number;
+      search?: string | undefined;
+      category?: string | undefined;
+      tag?: string | undefined;
+      sort?: SortKey | undefined;
+      page?: number | undefined;
+      pageSize?: number | undefined;
     }) => input ?? {},
   )
   .handler(async ({ data }) => {

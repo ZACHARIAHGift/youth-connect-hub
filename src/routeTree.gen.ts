@@ -10,11 +10,32 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as EventsRouteImport } from './routes/events'
 import { Route as ArticlesIndexRouteImport } from './routes/articles.index'
+import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
+import { Route as CategoriesIndexRouteImport } from './routes/categories.index'
+import { Route as CategoriesSlugRouteImport } from './routes/categories.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ArticlesIndexRoute = ArticlesIndexRouteImport.update({
@@ -22,31 +43,95 @@ const ArticlesIndexRoute = ArticlesIndexRouteImport.update({
   path: '/articles/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
+  id: '/articles/$slug',
+  path: '/articles/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategoriesIndexRoute = CategoriesIndexRouteImport.update({
+  id: '/categories/',
+  path: '/categories/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategoriesSlugRoute = CategoriesSlugRouteImport.update({
+  id: '/categories/$slug',
+  path: '/categories/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/events': typeof EventsRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
+  '/categories/$slug': typeof CategoriesSlugRoute
   '/articles/': typeof ArticlesIndexRoute
+  '/categories/': typeof CategoriesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/events': typeof EventsRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
+  '/categories/$slug': typeof CategoriesSlugRoute
   '/articles': typeof ArticlesIndexRoute
+  '/categories': typeof CategoriesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/events': typeof EventsRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
+  '/categories/$slug': typeof CategoriesSlugRoute
   '/articles/': typeof ArticlesIndexRoute
+  '/categories/': typeof CategoriesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/articles/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/events'
+    | '/articles/$slug'
+    | '/categories/$slug'
+    | '/articles/'
+    | '/categories/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/articles'
-  id: '__root__' | '/' | '/articles/'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/events'
+    | '/articles/$slug'
+    | '/categories/$slug'
+    | '/articles'
+    | '/categories'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/events'
+    | '/articles/$slug'
+    | '/categories/$slug'
+    | '/articles/'
+    | '/categories/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  EventsRoute: typeof EventsRoute
+  ArticlesSlugRoute: typeof ArticlesSlugRoute
+  CategoriesSlugRoute: typeof CategoriesSlugRoute
   ArticlesIndexRoute: typeof ArticlesIndexRoute
+  CategoriesIndexRoute: typeof CategoriesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +143,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/articles/': {
       id: '/articles/'
       path: '/articles'
@@ -65,12 +171,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticlesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/articles/$slug': {
+      id: '/articles/$slug'
+      path: '/articles/$slug'
+      fullPath: '/articles/$slug'
+      preLoaderRoute: typeof ArticlesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/categories/': {
+      id: '/categories/'
+      path: '/categories'
+      fullPath: '/categories/'
+      preLoaderRoute: typeof CategoriesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/categories/$slug': {
+      id: '/categories/$slug'
+      path: '/categories/$slug'
+      fullPath: '/categories/$slug'
+      preLoaderRoute: typeof CategoriesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  EventsRoute: EventsRoute,
+  ArticlesSlugRoute: ArticlesSlugRoute,
+  CategoriesSlugRoute: CategoriesSlugRoute,
   ArticlesIndexRoute: ArticlesIndexRoute,
+  CategoriesIndexRoute: CategoriesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

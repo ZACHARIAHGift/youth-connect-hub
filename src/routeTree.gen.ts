@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EventsRouteImport } from './routes/events'
 import { Route as ArticlesIndexRouteImport } from './routes/articles.index'
 import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
 import { Route as CategoriesIndexRouteImport } from './routes/categories.index'
@@ -18,6 +19,11 @@ import { Route as CategoriesSlugRouteImport } from './routes/categories.$slug'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ArticlesIndexRoute = ArticlesIndexRouteImport.update({
@@ -43,6 +49,7 @@ const CategoriesSlugRoute = CategoriesSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/events': typeof EventsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/articles/': typeof ArticlesIndexRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/events': typeof EventsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/articles': typeof ArticlesIndexRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/events': typeof EventsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/categories/$slug': typeof CategoriesSlugRoute
   '/articles/': typeof ArticlesIndexRoute
@@ -67,16 +76,23 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/events'
     | '/articles/$slug'
     | '/categories/$slug'
     | '/articles/'
     | '/categories/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/articles/$slug' | '/categories/$slug' | '/articles' | '/categories'
+    | '/'
+    | '/events'
+    | '/articles/$slug'
+    | '/categories/$slug'
+    | '/articles'
+    | '/categories'
   id:
     | '__root__'
     | '/'
+    | '/events'
     | '/articles/$slug'
     | '/categories/$slug'
     | '/articles/'
@@ -85,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EventsRoute: typeof EventsRoute
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   CategoriesSlugRoute: typeof CategoriesSlugRoute
   ArticlesIndexRoute: typeof ArticlesIndexRoute
@@ -98,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/articles/': {
@@ -133,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EventsRoute: EventsRoute,
   ArticlesSlugRoute: ArticlesSlugRoute,
   CategoriesSlugRoute: CategoriesSlugRoute,
   ArticlesIndexRoute: ArticlesIndexRoute,

@@ -4,6 +4,7 @@ export function formatDate(value: string | null | undefined) {
     day: "numeric",
     month: "short",
     year: "numeric",
+    timeZone: "UTC",
   });
 }
 
@@ -14,15 +15,28 @@ export function formatLongDate(value: string | null | undefined) {
     day: "numeric",
     month: "long",
     year: "numeric",
+    timeZone: "UTC",
   });
 }
 
 export function formatTime(value: string) {
-  return new Date(value).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+  return new Date(value).toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  });
 }
 
 export function compactNumber(value: number) {
-  return new Intl.NumberFormat("en-GB", { notation: "compact" }).format(value);
+  // Formatted manually: Intl compact notation differs between the server and
+  // browser ICU builds ("1.3K" vs "1.3k"), which breaks hydration.
+  if (value < 1000) return String(value);
+  if (value < 1_000_000) {
+    const k = value / 1000;
+    return `${k < 10 ? k.toFixed(1).replace(/\.0$/, "") : Math.round(k)}K`;
+  }
+  const m = value / 1_000_000;
+  return `${m < 10 ? m.toFixed(1).replace(/\.0$/, "") : Math.round(m)}M`;
 }
 
 export function slugify(value: string) {
